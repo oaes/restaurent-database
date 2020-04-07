@@ -39,8 +39,10 @@ app.get('/addFood', (req, res) => {
     });
 });
 
-app.get('/food/:id', (req, res) => {
-    console.log(req.query.sort);
+app.get('/food/:id', cors(), function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for a Single Route'})
+}),(req, res) => {
+   
   
     //dynamic url api
     const id = req.params.id;
