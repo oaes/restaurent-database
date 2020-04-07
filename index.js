@@ -62,17 +62,17 @@ app.get('/food/:id', (req, res) => {
 app.post('/orders' , (req,res) => {
   const data = req.body;
   console.log(data);
-  client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
+  // client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
   client.connect(err => {
       const collection = client.db('hotOnion').collection('orders');
-      collection.insert(data , (rej, result) =>  {
-          if(rej){
-              res.status(500).send("Filed to insert")
+      collection.insert(data , (reject, result) =>  {
+          if(reject){
+              res.status(500).send("failed")
           }else{
               res.send(result.ops[0])
           }
       });
-      client.close()
+      // client.close()
   });
 });
 const port = process.env.PORT || 5000;
