@@ -59,27 +59,20 @@ app.get('/food/:id', (req, res) => {
   });
 
 //post data section
-app.post('/order', (req, res) => {
-  const orderDetails = req.body;
-  orderDetails.orderTime = new Date();
-  // database Connection
-  client = new MongoClient(uri, { useNewUrlParser: true });
-  client.connect((err) => {
-    const collection = client.db("hotOnion").collection("order");
-    // perform actions on the collection object
-    collection.insertOne(order, (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("successfully inserted");
-
-        res.send(result.ops[0]);
-      }
-    });
-    console.log("database connected...");
-
-    client.close();
-  });
-});
+app.post('/orders' , (req,res) => {
+  const data = req.body;
+  console.log(data);
+  client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
+  client.connect(err => {
+      const collection = client.db('hotOnion').collection('orders');
+      collection.insert(data , (rej, result) =>  {
+          if(rej){
+              res.status(500).send("Filed to inset")
+          }else{
+              res.send(result.ops[0])
+          }
+      })
+  })
+})
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('listening song on port 5000'))
