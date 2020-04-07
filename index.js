@@ -67,12 +67,13 @@ app.post('/orders' , (req,res) => {
       const collection = client.db('hotOnion').collection('orders');
       collection.insert(data , (rej, result) =>  {
           if(rej){
-              res.status(500).send("Filed to inset")
+              res.status(500).send("Filed to insert")
           }else{
               res.send(result.ops[0])
           }
-      })
-  })
-})
+      });
+      client.close()
+  });
+});
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('listening song on port 5000'))
